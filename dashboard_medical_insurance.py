@@ -1,3 +1,13 @@
+import joblib
+from xgboost import XGBRegressor
+
+# Contoh training (ganti dengan datasetmu)
+model = XGBRegressor()
+model.fit(X_train, y_train)
+
+# Simpan model
+joblib.dump(model, "xgboost_model.pkl")
+
 import streamlit as st
 import joblib
 import numpy as np
