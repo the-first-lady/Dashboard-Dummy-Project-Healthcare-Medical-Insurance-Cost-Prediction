@@ -1,62 +1,103 @@
+## 📄 README.md
+
 ``markdown
-# 🏥 Medical Insurance Cost Prediction
+# Medical Insurance Cost Prediction Dashboard
 
-Dashboard interaktif berbasis **Streamlit** untuk memprediksi biaya asuransi kesehatan menggunakan model **XGBoost Regressor**.
+![Build Status](https://github.com/USERNAME/REPO/actions/workflows/python-app.yml/badge.svg)
+![Python Version](https://img.shields.io/badge/python-3.9-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Streamlit](https://img.shields.io/badge/streamlit-dashboard-orange.svg)
 
-## 🚀 Demo Aplikasi
-Klik untuk mencoba langsung di Streamlit Cloud:  
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/the-first-lady/Medical-Insurance-Cost-Prediction/main/dashboard_medical_insurance.py)
+Dashboard ini dibuat dengan **Streamlit** untuk memprediksi biaya asuransi kesehatan menggunakan model **XGBoost**.  
+Selain prediksi, dashboard juga menampilkan interpretasi model dengan **SHAP**.
 
---
+---
 
-## 📂 Struktur Repo
-``
-Medical-Insurance-Cost-Prediction/
-├── dashboard_medical_insurance.py   # Dashboard Streamlit
-├── xgboost_model.pkl                # Model hasil training
-├── requirements.txt                 # Daftar library
-└── README.md                        # Dokumentasi project
-``
-## ⚙️ Cara Menjalankan di Lokal
-1. Clone repo:
+## 🚀 Setup Environment
+
+1. **Clone / buka folder proyek**
    ```bash
-   git clone https://github.com/the-first-lady/Medical-Insurance-Cost-Prediction.git
-   cd Medical-Insurance-Cost-Prediction
+   cd Project_Python/Medical Insurance Cost Prediction
    ```
-2. Install dependencies:
+
+2. **Buat environment baru (opsional, lebih aman)**
+   ```bash
+   conda create -n insurance_env python=3.9
+   conda activate insurance_env
+   ```
+
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
-3. Jalankan dashboard:
-   ```bash
-   streamlit run dashboard_medical_insurance.py
-   ```
 
 ---
 
-## 📊 Model
-- Algoritma: **XGBoost Regressor**
-- Library utama: `scikit-learn`, `xgboost`, `joblib`
-- Model dilatih di notebook (`.ipynb`) lalu disimpan sebagai `xgboost_model.pkl`.
+## ▶️ Menjalankan Dashboard
 
----
+Jalankan perintah berikut dari folder proyek:
+```bash
+streamlit run dashboard_medical_insurance.py
+```
 
-## ✨ Fitur Dashboard
-- Input interaktif: usia, BMI, jumlah anak, status merokok, jenis kelamin.
-- Prediksi biaya asuransi kesehatan secara real-time.
-- Visualisasi hasil dengan antarmuka Streamlit yang sederhana.
-
----
-
-## 📌 Catatan
-- Training model dilakukan di notebook, bukan di dashboard.
-- Dashboard hanya **load model** untuk inference → startup lebih cepat dan stabil.
+Dashboard akan terbuka di browser pada alamat:
+```
+http://localhost:8501
 ```
 
 ---
 
-Dengan README ini:
-- Orang lain bisa langsung klik badge untuk membuka dashboard di Streamlit Cloud.  
-- Struktur repo jelas.  
-- Instruksi instalasi lokal tersedia.  
-- Penjelasan model dan fitur singkat ada.  
+## 🛑 Menonaktifkan Environment
+
+Jika menggunakan **conda**:
+```bash
+conda deactivate
+```
+
+Jika menggunakan **venv** (virtualenv bawaan Python):
+```bash
+deactivate
+```
+
+---
+
+## 📂 Struktur Proyek
+
+```
+Medical Insurance Cost Prediction/
+│
+├── Dashboard Medical Insurance Cost Prediction/
+│   └── dashboard_medical_insurance.py       # Script utama Streamlit
+│   └── requirements.txt                     # Daftar dependencies
+│   └── README.md                            # Dokumentasi proyek
+│   └── xgboost_model.pkl                    # File model tersimpan
+├── Medical Insurance Cost Prediction.ipynb
+├── medical-charges.csv
+
+---
+
+## 📸 Contoh Tampilan
+
+### Input Form
+Pengguna memasukkan data seperti:
+- Age: 35  
+- BMI: 27.5  
+- Children: 2  
+- Smoker: No  
+- Region: Northwest  
+
+### Output Prediksi
+- **Predicted Insurance Cost:** \$12,345  
+
+### Visualisasi SHAP
+Grafik SHAP menampilkan kontribusi fitur:
+- **Smoker** → faktor terbesar menaikkan biaya  
+- **BMI** → berpengaruh sedang  
+- **Children** → pengaruh kecil  
+
+---
+
+## ✨ Catatan
+- Pastikan file `xgboost_model.pkl` ada di folder proyek.
+- Jika ada error versi library, gunakan environment baru agar lebih stabil.
+```
