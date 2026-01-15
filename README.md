@@ -1,11 +1,9 @@
 ## 📄 README.md
 
-``markdown
 # Medical Insurance Cost Prediction Dashboard
 
-![Build Status](https://github.com/USERNAME/REPO/actions/workflows/python-app.yml/badge.svg)
+![Build Status](https://github.com/the-first-lady/REPO/actions/workflows/python-app.yml/badge.svg)
 ![Python Version](https://img.shields.io/badge/python-3.9-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Streamlit](https://img.shields.io/badge/streamlit-dashboard-orange.svg)
 
 Dashboard ini dibuat dengan **Streamlit** untuk memprediksi biaya asuransi kesehatan menggunakan model **XGBoost**.  
