@@ -1,32 +1,65 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 import joblib
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import shap
+import sklearn
+from sklearn.linear_model import LinearRegression
+import os
 
-# Judul dashboard
-st.title("Medical Insurance Cost Prediction 🏥")
+# Path absolut
+model_path = r"C:\Users\USER\Project_Python\Medical Insurance Cost Prediction\Dashboard Medical Insurance Cost Prediction\xgboost_model.pkl"
 
-# Load model dengan caching
-@st.cache_resource
-def load_model():
-    return joblib.load("xgboost_model.pkl")
+if os.path.exists(model_path):
+    model = joblib.load(model_path)
+else:
+    raise FileNotFoundError(f"Model file not found at: {model_path}")
 
-model = load_model()
 
-# Input user
-age = st.slider("Age", 18, 65, 30)
-bmi = st.slider("BMI", 15.0, 40.0, 22.5)
-children = st.number_input("Number of Children", 0, 5, 0)
-smoker = st.selectbox("Smoker", ["yes", "no"])
-sex = st.selectbox("Sex", ["male", "female"])
+st.title("Medical Insurance Cost Prediction Dashboard 💡")
 
-# Encode input sederhana (contoh)
-smoker_val = 1 if smoker == "yes" else 0
-sex_val = 1 if sex == "male" else 0
+# --- Input dari user ---
+age = st.number_input("Age", min_value=18, max_value=100, value=30)
+bmi = st.number_input("BMI", min_value=10.0, max_value=50.0, value=25.0)
+children = st.number_input("Number of Children", min_value=0, max_value=10, value=0)
+smoker = st.selectbox("Smoker", ["Yes", "No"])
+sex = st.selectbox("Sex", ["Male", "Female"])
+region = st.selectbox("Region", ["northeast", "northwest", "southeast", "southwest"])
 
-X_new = pd.DataFrame([[age, bmi, children, smoker_val, sex_val]],
-                     columns=["age", "bmi", "children", "smoker", "sex"])
+# --- Preprocessing input ---
+smoker_val = 1 if smoker == "Yes" else 0
+sex_val = 1 if sex == "Male" else 0
+region_map = {"northeast":0, "northwest":1, "southeast":2, "southwest":3}
+region_val = region_map[region]
 
-# Prediksi
-prediction = model.predict(X_new)[0]
-st.success(f"Estimated Insurance Cost: ${prediction:,.2f}")
+features = np.array([[age, bmi, children, smoker_val, sex_val, region_val]])
+
+# --- Prediksi ---
+if st.button("Predict Insurance Cost"):
+    prediction = model.predict(features)
+    st.success(f"Estimated Medical Insurance Cost: ${prediction[0]:,.2f}")
+
+# --- Visualisasi tambahan: Actual vs Predicted ---
+st.subheader("Model Performance Visualization")
+
+# Contoh data aktual vs prediksi (dummy untuk demo)
+actual = [5000, 10000, 15000, 20000, 25000]
+predicted = [5200, 9800, 14800, 21000, 24000]
+
+df = pd.DataFrame({"Actual": actual, "Predicted": predicted})
+
+fig, ax = plt.subplots()
+df.plot(kind="bar", ax=ax)
+plt.title("Comparison of Actual vs Predicted Costs")
+plt.ylabel("Insurance Cost ($)")
+st.pyplot(fig)
+
+# --- Visualisasi tambahan: SHAP Feature Importance ---
+st.subheader("Feature Importance (SHAP Values)")
+
+explainer = shap.Explainer(model)
+shap_values = explainer(features)
+
+fig_shap = shap.plots.bar(shap_values, show=False)
+st.pyplot(fig_shap)
